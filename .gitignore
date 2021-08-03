@@ -1,3 +1,14 @@
-**/obj
-**/bin
-**/Content
+build/
+packages/
+*.suo
+*.user
+bin/
+obj/
+.vs/
+paket-files/
+.fake/
+/.paket/fake.exe
+/.paket/.store/
+.ionide/
+*.Tests/Content/
+*~

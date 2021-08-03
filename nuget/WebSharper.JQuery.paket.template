@@ -1,0 +1,24 @@
+type file
+id WebSharper.JQuery
+authors IntelliFactory
+projectUrl https://websharper.com/
+repositoryType git
+repositoryUrl https://github.com/dotnet-websharper/jquery/
+licenseUrl https://github.com/dotnet-websharper/jquery/blob/master/LICENSE.md
+licenseExpression Apache-2.0
+iconUrl https://github.com/dotnet-websharper/core/raw/websharper50/tools/WebSharper.png
+description
+    WebSharper extension for jQuery
+tags
+    WebSharper Web JavaScript FSharp CSharp F# C# jQuery
+dependencies
+    framework: netstandard2.0
+        WebSharper ~> LOCKEDVERSION:[3]
+files
+    ../WebSharper.JQuery/bin/Release/netstandard2.0/WebSharper.JQuery.dll => lib/netstandard2.0
+    ../WebSharper.JQuery/bin/Release/netstandard2.0/WebSharper.JQuery.xml => lib/netstandard2.0
+    ../WebSharper.JQuery.RouterExtensions/bin/Release/netstandard2.0/WebSharper.JQuery.RouterExtensions.dll => lib/netstandard2.0
+    ../WebSharper.JQuery.RouterExtensions/bin/Release/netstandard2.0/WebSharper.JQuery.RouterExtensions.xml => lib/netstandard2.0
+references
+    WebSharper.JQuery.dll
+    WebSharper.JQuery.RouterExtensions.dll

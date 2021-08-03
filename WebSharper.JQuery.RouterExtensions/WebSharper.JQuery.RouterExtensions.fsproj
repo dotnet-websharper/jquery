@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <WebSharperProject>Library</WebSharperProject>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-
   <ItemGroup>
-    <Compile Include="Library.fs" />
+    <Compile Include="RouterExtensions.fs" />
     <None Include="wsconfig.json" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="WebSharper" Version="4.7.3.446" />    
-    <PackageReference Include="WebSharper.FSharp" Version="4.7.3.446" />
+    <ProjectReference Include="../WebSharper.JQuery/WebSharper.JQuery.fsproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="WebSharper.JQuery">
-      <HintPath>..\WebSharper.JQuery\bin\Debug\netstandard2.0\WebSharper.JQuery.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
+  <Import Project="..\paket-files\wsbuild\github.com\dotnet-websharper\build-script\WebSharper.Fake.targets" Condition="Exists('..\paket-files\wsbuild\github.com\dotnet-websharper\build-script\WebSharper.Fake.targets')" />
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
