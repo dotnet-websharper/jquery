@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WebSharper.JQuery.Tests</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="Content/WebSharper.JQuery.Tests.css" />
+    <style>
+        /* Don't show the not-yet-loaded templates */
+        [ws-template], [ws-children-template] { display: none; }
+        .fadeoutspan {
+            display: none;
+        }
+        #fadeP {
+            font-size: 150%;
+            cursor: pointer;
+        }
+        #findme {
+            display: flex;
+        }
+        .findchild {
+            flex: 1;
+            width: 100px;
+            height: 100px;
+            border: 2px solid yellow;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        #hoverOnMe, #hovertext, #selectMe, #showSelection {
+            font-size: xx-large;
+        }
+        #hovertext {
+            font-weight: bold;
+        }
+    </style>
+    <script type="text/javascript" src="Content/WebSharper.JQuery.Tests.head.js"></script>
+</head>
+<body>
+    <h1>JQuery tests</h1>
+    <div id="main" ws-children-template="Main">
+        <div>
+            <p id="focusin1"><input type="text"> <span class="fadeoutspan" id="fadeoutspan1">focusin fire</span></p>
+            <p id="focusin2"><input type="password"> <span class="fadeoutspan" id="fadeoutspan2">focusin fire</span></p>
+        </div>
+        <div ws-replace="FadeOutDiv"></div>
+        <div id="clickIMG">
+            Click here
+        </div>
+        <img id="bird" src="https://upload.wikimedia.org/wikipedia/commons/9/91/Palestine_sunbird_%28Cinnyris_osea_osea%29_male.jpg" alt="" width="40%"><br>
+        <button id="go">&raquo; Run</button>
+        <div id="animblock">Hello!</div>
+        <div id="findme">
+            <div class="findchild">Should be colored</div>
+            <div class="findchild">Should be colored</div>
+            <div class="findchild">Should be colored</div>
+        </div>
+        <div ws-hole="SelectMe"></div>
+        <div ws-replace="HoverOnMe"></div>
+    </div>
+    <script type="text/javascript" src="Content/WebSharper.JQuery.Tests.min.js"></script>
+</body>
+</html>
+
+<!-- <ul ws-hole="ListContainer">
+    <li ws-template="ListItem">${Name}</li>
+</ul>
+<div>
+    <input ws-var="Name" placeholder="Name" />
+    <button ws-onclick="Add">Add</button>
+    <div>You are about to add: ${Name}</div>
+</div> -->
