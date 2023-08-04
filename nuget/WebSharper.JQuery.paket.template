@@ -18,6 +18,7 @@ files
     ../WebSharper.JQuery/bin/Release/netstandard2.0/WebSharper.JQuery.xml => lib/netstandard2.0
     ../WebSharper.JQuery.RouterExtensions/bin/Release/netstandard2.0/WebSharper.JQuery.RouterExtensions.dll => lib/netstandard2.0
     ../WebSharper.JQuery.RouterExtensions/bin/Release/netstandard2.0/WebSharper.JQuery.RouterExtensions.xml => lib/netstandard2.0
+    ../WebSharper.JQuery/WebSharper.JQuery.fsproj ==> src/
 references
     WebSharper.JQuery.dll
     WebSharper.JQuery.RouterExtensions.dll

@@ -1,18 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33712.159
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WebSharper.JQuery", "WebSharper.JQuery\WebSharper.JQuery.fsproj", "{E02CD06F-242E-45A4-84D0-24E3E978EA12}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WebSharper.JQuery.RouterExtensions", "WebSharper.JQuery.RouterExtensions\WebSharper.JQuery.RouterExtensions.fsproj", "{B361C71E-5E2D-4732-A199-68164E9D5EB0}"
 	ProjectSection(ProjectDependencies) = postProject
-		{E02CD06F-242E-45A4-84D0-24E3E978EA12} = {E02CD06F-242E-45A4-84D0-24E3E978EA12}
-	EndProjectSection
-EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WebSharper.JQuery.Tests", "WebSharper.JQuery.Tests\WebSharper.JQuery.Tests.fsproj", "{0E44DDBC-3F16-416D-96BE-53566243ACBA}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B361C71E-5E2D-4732-A199-68164E9D5EB0} = {B361C71E-5E2D-4732-A199-68164E9D5EB0}
 		{E02CD06F-242E-45A4-84D0-24E3E978EA12} = {E02CD06F-242E-45A4-84D0-24E3E978EA12}
 	EndProjectSection
 EndProject
@@ -50,18 +44,6 @@ Global
 		{B361C71E-5E2D-4732-A199-68164E9D5EB0}.Release|x64.Build.0 = Release|Any CPU
 		{B361C71E-5E2D-4732-A199-68164E9D5EB0}.Release|x86.ActiveCfg = Release|Any CPU
 		{B361C71E-5E2D-4732-A199-68164E9D5EB0}.Release|x86.Build.0 = Release|Any CPU
-		{0E44DDBC-3F16-416D-96BE-53566243ACBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E44DDBC-3F16-416D-96BE-53566243ACBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E44DDBC-3F16-416D-96BE-53566243ACBA}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0E44DDBC-3F16-416D-96BE-53566243ACBA}.Debug|x64.Build.0 = Debug|Any CPU
-		{0E44DDBC-3F16-416D-96BE-53566243ACBA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0E44DDBC-3F16-416D-96BE-53566243ACBA}.Debug|x86.Build.0 = Debug|Any CPU
-		{0E44DDBC-3F16-416D-96BE-53566243ACBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E44DDBC-3F16-416D-96BE-53566243ACBA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0E44DDBC-3F16-416D-96BE-53566243ACBA}.Release|x64.ActiveCfg = Release|Any CPU
-		{0E44DDBC-3F16-416D-96BE-53566243ACBA}.Release|x64.Build.0 = Release|Any CPU
-		{0E44DDBC-3F16-416D-96BE-53566243ACBA}.Release|x86.ActiveCfg = Release|Any CPU
-		{0E44DDBC-3F16-416D-96BE-53566243ACBA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
