@@ -848,6 +848,9 @@ module Definition =
                 Position
                 NonceOptions
             ]
+            Namespace "WebSharper.JQuery.Resources" [
+                Resource "JQuery" "https://code.jquery.com/jquery-3.6.0.min.js" |> AssemblyWide
+            ]
         ]
 
 [<Sealed>]
