@@ -12,3 +12,4 @@ paket-files/
 .ionide/
 *.Tests/Content/
 *~
+websharper.log
