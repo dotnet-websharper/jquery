@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSharper.JQuery — sample</title>
+    <link rel="stylesheet" href="css/index.css" />
+    <!-- The binding links the jQuery script here (AssemblyWide resource). -->
+    <!-- ws-head -->
+</head>
+<body>
+    <header class="app-header">
+        <div class="app-titles">
+            <h1>WebSharper.JQuery</h1>
+            <p>jQuery bindings for F# — with <a href="https://websharper.com">WebSharper</a></p>
+        </div>
+        <a class="app-source" href="https://github.com/dotnet-websharper/jquery">Source</a>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <header class="card-header">
+                <h2>Plugins and the binding share one jQuery</h2>
+                <p>
+                    The <code>.highlight()</code> helper below is defined on the page's
+                    global <code>jQuery</code>. It is reachable through
+                    <code>JQuery.Of</code> because the binding resolves to that very same
+                    global instance — no second, private copy of jQuery.
+                </p>
+            </header>
+            <div class="card-body">
+                <div class="actions">
+                    <button class="btn btn-primary" ws-onclick="Highlight">Highlight with plugin</button>
+                    <button class="btn" ws-onclick="FadeOut">Fade out</button>
+                    <button class="btn" ws-onclick="Reset">Reset</button>
+                </div>
+                <div id="box" class="box">jQuery box</div>
+                <p class="status">${Status}</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // A plain jQuery plugin attached to the global instance. If the binding
+        // used a different (npm) instance, .highlight() would be undefined on
+        // JQuery.Of(...) and the button below would fail.
+        jQuery.fn.highlight = function () {
+            return this.css('background', 'gold').css('border-color', '#d4a017');
+        };
+    </script>
+
+    <script type="text/javascript" src="Scripts/WebSharper.JQuery.Sample.min.js"></script>
+</body>
+</html>
