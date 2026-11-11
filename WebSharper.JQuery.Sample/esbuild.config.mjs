@@ -1,8 +1,10 @@
 import { build } from 'esbuild'
-import { readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'fs'
+import { mkdirSync, copyFileSync } from 'fs'
 
 const name = 'WebSharper.JQuery.Sample'
 
+// The binding imports jQuery from the `jquery` npm package, so esbuild bundles
+// it into the sample script (resolved from node_modules).
 await build({
   entryPoints: [`./build/${name}.js`],
   bundle: true,
@@ -14,12 +16,7 @@ await build({
 
 mkdirSync('../dist/css', { recursive: true })
 copyFileSync('./css/index.css', '../dist/css/index.css')
-
-// Inject the WebSharper head into the page. This is where the binding's
-// AssemblyWide jQuery resource is emitted as a <script> tag, so the page and
-// the binding end up sharing the very same global jQuery instance.
-const head = readFileSync(`./build/${name}.head.html`, 'utf8')
-const html = readFileSync('./index.html', 'utf8').replace('<!-- ws-head -->', head)
-writeFileSync('../dist/index.html', html)
+copyFileSync('./index.html', '../dist/index.html')
+copyFileSync('./data.json', '../dist/data.json')
 
 console.log('Bundled:', name)
