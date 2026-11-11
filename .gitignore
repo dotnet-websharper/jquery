@@ -13,3 +13,5 @@ paket-files/
 *.Tests/Content/
 *~
 websharper.log
+*/node_modules/
+dist/

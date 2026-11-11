@@ -1,0 +1,10 @@
+{
+  "name": "WebSharper.JQuery.Sample",
+  "version": "1.0.0",
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  },
+  "dependencies": {
+    "jquery": "^4.0.0"
+  }
+}

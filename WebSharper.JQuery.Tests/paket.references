@@ -1,6 +1,0 @@
-group testing
-    FSharp.Core
-    WebSharper
-    WebSharper.FSharp
-    WebSharper.UI
-    WebSharper.AspNetCore

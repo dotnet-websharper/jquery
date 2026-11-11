@@ -2,7 +2,7 @@
 //
 // This file is part of WebSharper
 //
-// Copyright (c) 2008-2016 IntelliFactory
+// Copyright (c) 2008-2026 IntelliFactory
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you
 // may not use this file except in compliance with the License.  You may
@@ -25,7 +25,9 @@ open WebSharper.InterfaceGenerator
 
 module Definition =
 
-    let JQ = Class "jQuery"
+    let JQ =
+        Class "jQuery"
+        |> ImportDefault "jquery"
 
     let Event =
         Class "jQuery.Event"
@@ -104,7 +106,6 @@ module Definition =
         
         Promise,
         Class "jQuery.Deferred"
-        |> ImportDefault "jquery"
         |+> Instance (promiseMethods Promise)
         |+> Instance [
             "notify" => T<obj> ^-> TSelf
@@ -117,7 +118,6 @@ module Definition =
 
     let JqXHR =
         Class "jQuery.jqXHR"
-        |> ImportDefault "jquery"
         |=> Inherits Deferred
         |+> Instance [
             "readyState" =? T<int>
@@ -199,7 +199,6 @@ module Definition =
     let Callbacks =
         let cbf = T<unit> ^-> T<unit>
         Class "Callbacks"
-        |> ImportDefault "jquery"
         |+> Instance [
             "add" => (cbf + !| cbf) ^-> TSelf
             "disable" => T<unit> ^-> T<unit>
@@ -255,8 +254,7 @@ module Definition =
         }
 
     let FN =
-        Class "JQuery.fn"
-        |> ImportDefault "jquery"
+        Class "jQuery.fn"
         |+> Static [
             "extend" => T<obj> ^-> T<obj>
             |> WithComment "Merge the contents of an object onto the jQuery prototype to provide new jQuery instance methods"
@@ -264,28 +262,18 @@ module Definition =
 
     let FX =
         Class "jQuery.fx"
-        |> ImportDefault "jquery"
         |+> Static [
             "off" =@ T<bool>
             |> WithComment "Globally disable all animations"
-
-            // Deprecated
-            "interval" =@ T<int>
-            |> WithComment "The rate (in milliseconds) at which animations fire"
-            |> Obsolete
         ]
 
     let NonceOptions =
         Pattern.Config "NonceOptions" {
             Required = []
             Optional = [
-                "nonce", T<string>
+                ("nonce", T<string>)
             ]
         }
-
-    let (=.>) name t =
-        name => t
-        |> ImportDefault "jquery"
 
     let JQueryClass =
         let EH = T<Dom.Element> -* Event ^-> T<unit>
@@ -293,7 +281,6 @@ module Definition =
         let Func = T<int> ^-> Content
         let FuncWithHTML = T<int> * T<string> ^-> Content
         JQ
-        |> ImportDefault "jquery"
         |+> Instance [
             "ignore" =? T<unit>
             |> WithGetterInline "$this"
@@ -519,8 +506,6 @@ module Definition =
             "scroll" => T<unit> ^-> TSelf
             "select" => !?T<obj> * EH ^-> TSelf
             "select" => T<unit> ^-> TSelf
-            "size" => T<unit> ^-> T<int>
-            |> WithInline "$this.length"
             "submit" => !?T<obj> * EH ^-> TSelf
             "submit" => T<unit> ^-> TSelf
             "trigger" => T<string> * !?(!| T<obj>) ^-> TSelf
@@ -636,196 +621,164 @@ module Definition =
         |+> Static [
             // Core
             Constructor (T<string>?selector)
-            //|> WithInline "jQuery($0)"
             |> WithComment "Accepts a string containing a CSS selector which is then used to match a set of elements."
-            |> ImportDefault "jquery"
 
             Constructor (T<string>?selector * Context?context)
-            //|> WithInline "jQuery($0, $1)"
             |> WithComment "Accepts a string containing a CSS selector and a DOM Element, Document, or jQuery to use as context."
-            |> ImportDefault "jquery"
 
             Constructor (T<Dom.Node>?element)
-            //|> WithInline "jQuery($0)"
             |> WithComment "Accepts a DOM element to wrap in a jQuery object."
-            |> ImportDefault "jquery"
 
             Constructor (T<Dom.Node []>?elementArray)
-            //|> WithInline "jQuery($0)"
             |> WithComment "Accepts an array containing a set of DOM elements to wrap in a jQuery object."
-            |> ImportDefault "jquery"
 
             Constructor (T<obj>?``object``)
-            //|> WithInline "jQuery($0)"
             |> WithComment "Accepts a plain object to wrap in a jQuery object."
-            |> ImportDefault "jquery"
 
             Constructor (TSelf?selection)
-            //|> WithInline "jQuery($0)"
             |> WithComment "Accepts an existing jQuery object to clone."
-            |> ImportDefault "jquery"
 
             Constructor (T<unit>)
-            //|> WithInline "jQuery()"
             |> WithComment "This signature does not accept any arguments."
-            |> ImportDefault "jquery"
 
             Constructor (T<string>?html * T<Dom.Document>?ownerDocument)
-            //|> WithInline "jQuery($0, $1)"
             |> WithComment "Creates DOM elements on the fly from the provided string of raw HTML."
-            |> ImportDefault "jquery"
 
             Constructor (T<string>?html * T<obj>?attributes)
-            //|> WithInline "jQuery($0, $1)"
             |> WithComment "Creates DOM elements on the fly from the provided string of raw HTML."
-            |> ImportDefault "jquery"
 
             Constructor ((T<unit> ^-> T<unit>)?callback)
-            //|> WithInline "jQuery($0)"
             |> WithComment "Binds a function to be executed when the DOM has finished loading."
-            |> ImportDefault "jquery"
 
-            "of" =.> (T<string>?selector) ^-> TSelf
-            //|> WithInline "jQuery($0)"
+            "of" => (T<string>?selector) ^-> TSelf
+            |> ImportDefault "jquery"
             |> WithComment "Accepts a string containing a CSS selector which is then used to match a set of elements."
 
-            "of" =.> (T<string>?selector * Context?context) ^-> TSelf
-            //|> WithInline "jQuery($0, $1)"
+            "of" => (T<string>?selector * Context?context) ^-> TSelf
+            |> ImportDefault "jquery"
             |> WithComment "Accepts a string containing a CSS selector and a DOM Element, Document, or jQuery to use as context."
 
-            "of" =.> (T<Dom.Node>?element) ^-> TSelf
-            //|> WithInline "jQuery($0)"
+            "of" => (T<Dom.Node>?element) ^-> TSelf
+            |> ImportDefault "jquery"
             |> WithComment "Accepts a DOM element to wrap in a jQuery object."
 
-            "of" =.> (T<Dom.Node []>?elementArray) ^-> TSelf
-            //|> WithInline "jQuery($0)"
+            "of" => (T<Dom.Node []>?elementArray) ^-> TSelf
+            |> ImportDefault "jquery"
             |> WithComment "Accepts an array containing a set of DOM elements to wrap in a jQuery object."
 
-            "of" =.> (T<obj>?``object``) ^-> TSelf
-            //|> WithInline "jQuery($0)"
+            "of" => (T<obj>?``object``) ^-> TSelf
+            |> ImportDefault "jquery"
             |> WithComment "Accepts a plain object to wrap in a jQuery object."
 
-            "of" =.> (TSelf?selection) ^-> TSelf
-            //|> WithInline "jQuery($0)"
+            "of" => (TSelf?selection) ^-> TSelf
+            |> ImportDefault "jquery"
             |> WithComment "Accepts an existing jQuery object to clone."
 
-            "of" =.> (T<unit>) ^-> TSelf
-            //|> WithInline "jQuery()"
+            "of" => (T<unit>) ^-> TSelf
+            |> ImportDefault "jquery"
             |> WithComment "This signature does not accept any arguments."
 
-            "of" =.> (T<string>?html * T<Dom.Document>?ownerDocument) ^-> TSelf
-            //|> WithInline "jQuery($0, $1)"
+            "of" => (T<string>?html * T<Dom.Document>?ownerDocument) ^-> TSelf
+            |> ImportDefault "jquery"
             |> WithComment "Creates DOM elements on the fly from the provided string of raw HTML."
 
-            "of" =.> (T<string>?html * T<obj>?attributes) ^-> TSelf
-            //|> WithInline "jQuery($0, $1)"
+            "of" => (T<string>?html * T<obj>?attributes) ^-> TSelf
+            |> ImportDefault "jquery"
             |> WithComment "Creates DOM elements on the fly from the provided string of raw HTML."
 
-            "of" =.> ((T<unit> ^-> T<unit>)?callback) ^-> TSelf
-            //|> WithInline "jQuery($0)"
+            "of" => ((T<unit> ^-> T<unit>)?callback) ^-> TSelf
+            |> ImportDefault "jquery"
             |> WithComment "Binds a function to be executed when the DOM has finished loading."
 
-            "noConflict" =.> !?T<bool> ^-> T<obj>
-            "readyException" =.> Error ^-> T<string>
-            "when" =.> Deferred + Promise ^-> Promise
+            "noConflict" => !?T<bool> ^-> T<obj>
+            "readyException" => Error ^-> T<string>
+            "when" => Deferred + Promise ^-> Promise
+
+            // Plugin surface
+            "fn" =? T<obj>
+            |> WithComment "The jQuery prototype, where plugins are registered"
 
             // Ajax related static methods
-            "ajax" =.> T<string> * !? AjaxSettings ^-> JqXHR
-            "ajax" =.> !?AjaxSettings ^-> JqXHR
-            "ajaxPrefilter" =.> !?DataType * (AjaxSettings * T<obj> * JqXHR ^-> T<unit>) ^-> T<obj> // returns undefined
-            "ajaxSetup" =.> AjaxSettings ^-> T<unit>
-            "ajaxTransport" =.> DataType * (AjaxSettings * T<obj> * JqXHR ^-> T<unit>) ^-> T<obj> // returns undefined
-            "get" =.> (T<string> * !?(T<obj> + T<string>) * !? (T<obj> * T<string> * JqXHR ^-> T<unit>) * !? DataType) ^-> JqXHR
-            "get" =.> !?AjaxSettings ^-> JqXHR
-            "getJSON" =.> T<string> * !?((T<obj> * T<string> ^-> T<unit>) + (T<obj> * T<string> * JqXHR ^-> T<unit>)) ^-> JqXHR
-            "getJSON" =.> T<string> * (T<obj> + T<string>) * !?((T<obj> * T<string> ^-> T<unit>) + (T<obj> * T<string> * JqXHR ^-> T<unit>)) ^-> JqXHR
-            "getScript" =.> (T<string> * !? (T<string> * T<string> * JqXHR ^-> T<unit>)) ^-> JqXHR
-            "param" =.> (T<obj> * T<obj []> * TSelf) * !?T<bool> ^-> T<string>
-            "post" =.> (T<string> * !?(T<obj> + T<string>) * !?(T<obj> * T<string> * JqXHR ^-> T<unit>) * !? DataType) ^-> JqXHR
-            "post" =.> !?AjaxSettings ^-> JqXHR
+            "ajax" => T<string> * !? AjaxSettings ^-> JqXHR
+            "ajax" => !?AjaxSettings ^-> JqXHR
+            "ajaxPrefilter" => !?DataType * (AjaxSettings * T<obj> * JqXHR ^-> T<unit>) ^-> T<obj> // returns undefined
+            "ajaxSetup" => AjaxSettings ^-> T<unit>
+            "ajaxTransport" => DataType * (AjaxSettings * T<obj> * JqXHR ^-> T<unit>) ^-> T<obj> // returns undefined
+            "get" => (T<string> * !?(T<obj> + T<string>) * !? (T<obj> * T<string> * JqXHR ^-> T<unit>) * !? DataType) ^-> JqXHR
+            "get" => !?AjaxSettings ^-> JqXHR
+            "getJSON" => T<string> * !?((T<obj> * T<string> ^-> T<unit>) + (T<obj> * T<string> * JqXHR ^-> T<unit>)) ^-> JqXHR
+            "getJSON" => T<string> * (T<obj> + T<string>) * !?((T<obj> * T<string> ^-> T<unit>) + (T<obj> * T<string> * JqXHR ^-> T<unit>)) ^-> JqXHR
+            "getScript" => (T<string> * !? (T<string> * T<string> * JqXHR ^-> T<unit>)) ^-> JqXHR
+            "param" => (T<obj> * T<obj []> * TSelf) * !?T<bool> ^-> T<string>
+            "post" => (T<string> * !?(T<obj> + T<string>) * !?(T<obj> * T<string> * JqXHR ^-> T<unit>) * !? DataType) ^-> JqXHR
+            "post" => !?AjaxSettings ^-> JqXHR
 
             // Callback related static method
-            "Callbacks" =.> T<string> ^-> Callbacks
+            "Callbacks" => T<string> ^-> Callbacks
 
             // CSS related static methods/properties
             "cssHooks" =@ T<obj>
             "cssNumber" =@ T<Object<int>>
-            "escapeSelector" =.> T<string> ^-> T<string>
+            "escapeSelector" => T<string> ^-> T<string>
 
             // Data related static methods
-            "data" =.> T<Dom.Element> * T<string> * T<obj> ^-> T<obj>
-            "data" =.> T<Dom.Element> * T<string> ^-> T<obj>
-            "data" =.> T<Dom.Element> ^-> T<obj>
-            "dequeue" =.> T<Dom.Element> * !?T<string> ^-> TSelf
-            "hasData" =.> T<Dom.Element> ^-> T<bool>
-            "queue" =.> T<Dom.Element> * !?T<string> ^-> !| T<obj>
-            "queue" =.> T<Dom.Element> * T<string> * (!| T<obj> + ((T<unit> ^-> T<unit>) ^-> T<unit>)) ^-> TSelf
-            "removeData" =.> T<Dom.Element> * (T<string> + !| T<string>) ^-> TSelf
+            "data" => T<Dom.Element> * T<string> * T<obj> ^-> T<obj>
+            "data" => T<Dom.Element> * T<string> ^-> T<obj>
+            "data" => T<Dom.Element> ^-> T<obj>
+            "dequeue" => T<Dom.Element> * !?T<string> ^-> TSelf
+            "hasData" => T<Dom.Element> ^-> T<bool>
+            "queue" => T<Dom.Element> * !?T<string> ^-> !| T<obj>
+            "queue" => T<Dom.Element> * T<string> * (!| T<obj> + ((T<unit> ^-> T<unit>) ^-> T<unit>)) ^-> TSelf
+            "removeData" => T<Dom.Element> * (T<string> + !| T<string>) ^-> TSelf
 
             // Deferred
-            "Deferred" =.> !?(Deferred ^-> T<unit>) ^-> Deferred
+            "Deferred" => !?(Deferred ^-> T<unit>) ^-> Deferred
 
             // Effects
-            "speed" =.> (T<int> + T<string>) * Speed ^-> T<obj>
-            "speed" =.> (T<int> + T<string>) * T<string> * (T<unit> ^-> T<unit>) ^-> T<obj>
-            "speed" =.> Speed ^-> T<obj>
+            "speed" => (T<int> + T<string>) * Speed ^-> T<obj>
+            "speed" => (T<int> + T<string>) * T<string> * (T<unit> ^-> T<unit>) ^-> T<obj>
+            "speed" => Speed ^-> T<obj>
 
             "fx" =? FX
         
             // Internals
-            "error" =.> T<string> ^-> T<unit>
+            "error" => T<string> ^-> T<unit>
 
             // Manipulation
-            "htmlPrefilter" =.> T<string> ^-> T<string>
+            "htmlPrefilter" => T<string> ^-> T<string>
             
             // Utilities
-            "contains" =.> T<Dom.Element> * T<Dom.Element> ^-> T<bool>
-            "each" =.> (!| T<obj>) * (T<int> * T<obj> ^-> T<unit>) ^-> T<obj>
-            "each" =.> (T<obj>) * (T<string> * T<obj> ^-> T<unit>) ^-> T<obj>
-            "extend" =.> T<obj> *+ T<obj> ^-> T<obj>
-            "extend" =.> T<bool> * T<obj> * T<obj> *+ T<obj> ^-> T<obj>
-            "globalEval" =.> T<string> * !? NonceOptions * !? T<Dom.Document> ^-> T<unit>
+            "contains" => T<Dom.Element> * T<Dom.Element> ^-> T<bool>
+            "each" => (!| T<obj>) * (T<int> * T<obj> ^-> T<unit>) ^-> T<obj>
+            "each" => (T<obj>) * (T<string> * T<obj> ^-> T<unit>) ^-> T<obj>
+            "extend" => T<obj> *+ T<obj> ^-> T<obj>
+            "extend" => T<bool> * T<obj> * T<obj> *+ T<obj> ^-> T<obj>
+            "globalEval" => T<string> * !? NonceOptions * !? T<Dom.Document> ^-> T<unit>
             |> WithComment "Execute some JavaScript code globally"
-            "grep" =.> (T<obj> + !| T<obj>) * (T<obj> * T<int> ^-> T<bool>) * T<bool> ^-> !| T<obj>
-            "inArray" =.> T<obj> * !| T<obj> * !?T<int> ^-> T<int>
-            "isEmptyObject" =.> T<obj> ^-> T<bool>
-            "isPlainObject" =.> T<obj> ^-> T<bool>
-            "isXMLDoc" =.> T<Dom.Element> ^-> T<bool>
-            "makeArray" =.> T<obj> ^-> !| T<obj>
-            "map" =.> (!| T<obj>) * (T<obj> * T<int> ^-> T<unit>) ^-> !| T<obj>
-            "map" =.> (T<obj>) * (T<string> * T<obj> ^-> T<unit>) ^-> !| T<obj>
-            "merge" =.> (T<obj> + !| T<obj>) * (T<obj> + !| T<obj>) ^-> !| T<obj>
-            "noop" =.> T<unit> ^-> T<obj>
-            "parseHTML" =.> T<string> * !? T<Dom.Element> * !? T<bool> ^-> !| T<Dom.Node>
-            "parseXML" =.> T<string> ^-> T<Dom.Document>
-            "uniqueSort" =.> !| T<Dom.Element> ^-> !| T<Dom.Element>
+            "grep" => (T<obj> + !| T<obj>) * (T<obj> * T<int> ^-> T<bool>) * T<bool> ^-> !| T<obj>
+            "inArray" => T<obj> * !| T<obj> * !?T<int> ^-> T<int>
+            "isEmptyObject" => T<obj> ^-> T<bool>
+            "isPlainObject" => T<obj> ^-> T<bool>
+            "isXMLDoc" => T<Dom.Element> ^-> T<bool>
+            "makeArray" => T<obj> ^-> !| T<obj>
+            "map" => (!| T<obj>) * (T<obj> * T<int> ^-> T<unit>) ^-> !| T<obj>
+            "map" => (T<obj>) * (T<string> * T<obj> ^-> T<unit>) ^-> !| T<obj>
+            "merge" => (T<obj> + !| T<obj>) * (T<obj> + !| T<obj>) ^-> !| T<obj>
+            "noop" => T<unit> ^-> T<obj>
+            "parseHTML" => T<string> * !? T<Dom.Element> * !? T<bool> ^-> !| T<Dom.Node>
+            "parseXML" => T<string> ^-> T<Dom.Document>
+            "uniqueSort" => !| T<Dom.Element> ^-> !| T<Dom.Element>
 
             // Deprecated
-            "holdReady" =.> T<bool> ^-> T<obj>
+            "holdReady" => T<bool> ^-> T<obj>
             |> ObsoleteWithMessage "Instead of relying on this global switch, it's better to put explicitly wait for required code"
-            "isArray" =.> T<obj> ^-> T<bool>
-            |> ObsoleteWithMessage "Use the native Array.isArray method instead"
-            "isFunction" =.> T<obj> ^-> T<bool>
-            |> ObsoleteWithMessage "In most cases, its use can be replaced by typeof x === \"function\""
-            "isNumeric" =.> T<obj> ^-> T<bool>
-            |> Obsolete
-            "isWindow" =.> T<obj> ^-> T<bool>
-            |> ObsoleteWithMessage "If you need this function, reimplement it by yourself"
-            "now" =.> T<unit> ^-> T<int>
-            |> ObsoleteWithMessage "Use the native Date.now() method instead"
-            "parseJSON" =.> T<string> ^-> T<obj>
-            |> ObsoleteWithMessage "Use the native JSON.parse instead"
-            "proxy" =.> (T<unit> ^-> T<unit>) * T<obj> * !?(!| T<obj>) ^-> (Event ^-> T<unit>)
+            "proxy" => (T<unit> ^-> T<unit>) * T<obj> * !?(!| T<obj>) ^-> (Event ^-> T<unit>)
             |> ObsoleteWithMessage "Use the native Function.prototype.bind method instead"
-            "proxy" =.> T<obj> * T<string> * !?(!| T<obj>) ^-> (Event ^-> T<unit>)
+            "proxy" => T<obj> * T<string> * !?(!| T<obj>) ^-> (Event ^-> T<unit>)
             |> ObsoleteWithMessage "Use the native Function.prototype.bind method instead"
-            "trim" =.> T<string> ^-> T<string>
-            |> ObsoleteWithMessage "Use the native String.prototype.trim method instead"
-            "type" =.> T<obj> ^-> T<string>
-            |> Obsolete
-            "unique" =.> !| T<Dom.Element> ^-> !| T<Dom.Element>
-            |> ObsoleteWithMessage "Use UniqueSort instead"
+            
         ]
+        
         
     let Assembly =
         Assembly [
@@ -848,8 +801,11 @@ module Definition =
                 Position
                 NonceOptions
             ]
+            // Kept for source compatibility with bindings that still link a
+            // global jQuery (notably WebSharper.Highcharts). This binding does
+            // not use it: it imports jQuery from npm instead. Not AssemblyWide.
             Namespace "WebSharper.JQuery.Resources" [
-                Resource "JQuery" "https://code.jquery.com/jquery-3.6.0.min.js" |> AssemblyWide
+                Resource "JQuery" "https://code.jquery.com/jquery-4.0.0.min.js"
             ]
         ]
 

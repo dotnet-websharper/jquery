@@ -10,6 +10,8 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WebSharper.JQuery.RouterExt
 		{E02CD06F-242E-45A4-84D0-24E3E978EA12} = {E02CD06F-242E-45A4-84D0-24E3E978EA12}
 	EndProjectSection
 EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WebSharper.JQuery.Sample", "WebSharper.JQuery.Sample\WebSharper.JQuery.Sample.fsproj", "{D4E5F6A7-B8C9-4D0E-9F1A-2B3C4D5E6F70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{B361C71E-5E2D-4732-A199-68164E9D5EB0}.Release|x64.Build.0 = Release|Any CPU
 		{B361C71E-5E2D-4732-A199-68164E9D5EB0}.Release|x86.ActiveCfg = Release|Any CPU
 		{B361C71E-5E2D-4732-A199-68164E9D5EB0}.Release|x86.Build.0 = Release|Any CPU
+		{D4E5F6A7-B8C9-4D0E-9F1A-2B3C4D5E6F70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4E5F6A7-B8C9-4D0E-9F1A-2B3C4D5E6F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4E5F6A7-B8C9-4D0E-9F1A-2B3C4D5E6F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E5F6A7-B8C9-4D0E-9F1A-2B3C4D5E6F70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

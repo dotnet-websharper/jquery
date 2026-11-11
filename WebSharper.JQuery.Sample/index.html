@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSharper.JQuery — sample</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="css/index.css" />
+    <script>
+        // Apply the stored theme before first paint to avoid a flash.
+        try {
+            if (localStorage.getItem('ws-jquery-theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        } catch (e) { }
+    </script>
+</head>
+<body>
+    <header class="app-header">
+        <div class="app-titles">
+            <h1>WebSharper.JQuery</h1>
+            <p>jQuery 4 bindings for F# — with <a href="https://websharper.com">WebSharper</a></p>
+        </div>
+        <div class="app-actions">
+            <a class="app-source" href="https://github.com/dotnet-websharper/jquery">Source</a>
+            <button class="btn btn-theme" ws-onclick="ToggleTheme">${ThemeLabel}</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <header class="card-header">
+                <h2>Plugins and the npm instance</h2>
+                <p>
+                    The binding imports jQuery 4 from the <code>jquery</code> npm package.
+                    The <code>.highlight()</code> plugin below is registered on that same
+                    instance through <code>jQuery.fn.extend</code> via the binding, so it is
+                    reachable through <code>JQuery.Of</code> — there is a single, bundled
+                    jQuery.
+                </p>
+            </header>
+            <div class="card-body">
+                <div class="actions">
+                    <button class="btn btn-primary" ws-onclick="Highlight">Highlight with plugin</button>
+                    <button class="btn" ws-onclick="FadeOut">Fade out</button>
+                    <button class="btn" ws-onclick="Reset">Reset</button>
+                </div>
+                <div id="box" class="box">jQuery box</div>
+                <p class="hint">Clicks: <span id="counter">${ClickCount}</span> · hovers: ${HoverCount}</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <header class="card-header">
+                <h2>Events and manipulation</h2>
+                <p>
+                    Uses <code>.Mouseenter()</code>, <code>.Text()</code>,
+                    <code>.Attr()</code> and <code>.Data()</code> against
+                    <code>JQuery.Of</code>.
+                </p>
+            </header>
+            <div class="card-body">
+                <div class="actions">
+                    <button class="btn btn-primary" ws-onclick="Increment">Click me</button>
+                </div>
+                <label class="field">
+                    <span>Your name</span>
+                    <input type="text" ws-var="Name" placeholder="Type here..." />
+                </label>
+                <p class="status">${Greeting}</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <header class="card-header">
+                <h2>Ajax</h2>
+                <p>
+                    Loads <code>data.json</code> with <code>JQuery.Ajax</code> and an
+                    <code>AjaxSettings</code> record.
+                </p>
+            </header>
+            <div class="card-body">
+                <div class="actions">
+                    <button class="btn btn-primary" ws-onclick="LoadData">Load data.json</button>
+                </div>
+                <p class="status">${DataResult}</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <header class="card-header">
+                <h2>Utilities and Deferred</h2>
+                <p>
+                    Exercises <code>JQuery.Grep</code>, <code>JQuery.InArray</code> and a
+                    promise created with <code>JQuery.Deferred</code>.
+                </p>
+            </header>
+            <div class="card-body">
+                <div class="actions">
+                    <button class="btn btn-primary" ws-onclick="RunUtilities">Run utilities</button>
+                    <button class="btn" ws-onclick="RunDeferred">Run Deferred</button>
+                </div>
+                <p class="status">${UtilityResult}</p>
+                <p class="status">${DeferredResult}</p>
+            </div>
+        </section>
+
+        <p class="status global" role="status">${Status}</p>
+    </main>
+
+    <script type="text/javascript" src="Scripts/WebSharper.JQuery.Sample.min.js"></script>
+</body>
+</html>

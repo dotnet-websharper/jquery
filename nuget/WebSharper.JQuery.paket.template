@@ -4,10 +4,10 @@ authors IntelliFactory
 projectUrl https://websharper.com/
 repositoryType git
 repositoryUrl https://github.com/dotnet-websharper/jquery/
-licenseUrl https://github.com/dotnet-websharper/jquery/blob/master/LICENSE.md
+licenseUrl https://github.com/dotnet-websharper/jquery/blob/main/LICENSE.md
 iconUrl https://github.com/dotnet-websharper/core/raw/websharper50/tools/WebSharper.png
 description
-    WebSharper extension for jQuery 3.7+
+    WebSharper extension for jQuery 4.0+
 tags
     WebSharper Web JavaScript FSharp CSharp F# C# jQuery
 dependencies
