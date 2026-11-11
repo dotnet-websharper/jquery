@@ -62,7 +62,7 @@ Or with Paket:
 nuget WebSharper.JQuery
 ```
 
-The binding targets `netstandard2.0` and works with WebSharper 11 projects.
+The binding targets `netstandard2.0` and works with WebSharper 10 projects.
 
 The binding declares its npm dependency as
 `jquery >= 4.0.0 < 5.0.0`, so your application's package manager installs a
@@ -155,8 +155,8 @@ docs/sample.png                   # sample screenshot
 
 ### Prerequisites
 
-- [.NET SDK](https://dotnet.microsoft.com/download) 11 (preview) — the
-  WebSharper 11 compiler needs the .NET 11 runtime.
+- [.NET SDK](https://dotnet.microsoft.com/download) 10 — the
+  WebSharper 10 compiler runs on the .NET 10 runtime.
 - [Node.js](https://nodejs.org/) (LTS) for the esbuild bundle step.
 - [Paket](https://fsprojects.github.io/Paket/) as a local dotnet tool (already
   configured in `.config/dotnet-tools.json`).
