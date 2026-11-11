@@ -25,7 +25,9 @@ open WebSharper.InterfaceGenerator
 
 module Definition =
 
-    let JQ = Class "jQuery"
+    let JQ =
+        Class "jQuery"
+        |> ImportDefault "jquery"
 
     let Event =
         Class "jQuery.Event"
@@ -252,7 +254,7 @@ module Definition =
         }
 
     let FN =
-        Class "JQuery.fn"
+        Class "jQuery.fn"
         |+> Static [
             "extend" => T<obj> ^-> T<obj>
             |> WithComment "Merge the contents of an object onto the jQuery prototype to provide new jQuery instance methods"
@@ -263,18 +265,13 @@ module Definition =
         |+> Static [
             "off" =@ T<bool>
             |> WithComment "Globally disable all animations"
-
-            // Deprecated
-            "interval" =@ T<int>
-            |> WithComment "The rate (in milliseconds) at which animations fire"
-            |> Obsolete
         ]
 
     let NonceOptions =
         Pattern.Config "NonceOptions" {
             Required = []
             Optional = [
-                "nonce", T<string>
+                ("nonce", T<string>)
             ]
         }
 
@@ -509,8 +506,6 @@ module Definition =
             "scroll" => T<unit> ^-> TSelf
             "select" => !?T<obj> * EH ^-> TSelf
             "select" => T<unit> ^-> TSelf
-            "size" => T<unit> ^-> T<int>
-            |> WithInline "$this.length"
             "submit" => !?T<obj> * EH ^-> TSelf
             "submit" => T<unit> ^-> TSelf
             "trigger" => T<string> * !?(!| T<obj>) ^-> TSelf
@@ -626,88 +621,82 @@ module Definition =
         |+> Static [
             // Core
             Constructor (T<string>?selector)
-            |> WithInline "jQuery($0)"
             |> WithComment "Accepts a string containing a CSS selector which is then used to match a set of elements."
 
             Constructor (T<string>?selector * Context?context)
-            |> WithInline "jQuery($0, $1)"
             |> WithComment "Accepts a string containing a CSS selector and a DOM Element, Document, or jQuery to use as context."
 
             Constructor (T<Dom.Node>?element)
-            |> WithInline "jQuery($0)"
             |> WithComment "Accepts a DOM element to wrap in a jQuery object."
 
             Constructor (T<Dom.Node []>?elementArray)
-            |> WithInline "jQuery($0)"
             |> WithComment "Accepts an array containing a set of DOM elements to wrap in a jQuery object."
 
             Constructor (T<obj>?``object``)
-            |> WithInline "jQuery($0)"
             |> WithComment "Accepts a plain object to wrap in a jQuery object."
 
             Constructor (TSelf?selection)
-            |> WithInline "jQuery($0)"
             |> WithComment "Accepts an existing jQuery object to clone."
 
             Constructor (T<unit>)
-            |> WithInline "jQuery()"
             |> WithComment "This signature does not accept any arguments."
 
             Constructor (T<string>?html * T<Dom.Document>?ownerDocument)
-            |> WithInline "jQuery($0, $1)"
             |> WithComment "Creates DOM elements on the fly from the provided string of raw HTML."
 
             Constructor (T<string>?html * T<obj>?attributes)
-            |> WithInline "jQuery($0, $1)"
             |> WithComment "Creates DOM elements on the fly from the provided string of raw HTML."
 
             Constructor ((T<unit> ^-> T<unit>)?callback)
-            |> WithInline "jQuery($0)"
             |> WithComment "Binds a function to be executed when the DOM has finished loading."
 
             "of" => (T<string>?selector) ^-> TSelf
-            |> WithInline "jQuery($0)"
+            |> ImportDefault "jquery"
             |> WithComment "Accepts a string containing a CSS selector which is then used to match a set of elements."
 
             "of" => (T<string>?selector * Context?context) ^-> TSelf
-            |> WithInline "jQuery($0, $1)"
+            |> ImportDefault "jquery"
             |> WithComment "Accepts a string containing a CSS selector and a DOM Element, Document, or jQuery to use as context."
 
             "of" => (T<Dom.Node>?element) ^-> TSelf
-            |> WithInline "jQuery($0)"
+            |> ImportDefault "jquery"
             |> WithComment "Accepts a DOM element to wrap in a jQuery object."
 
             "of" => (T<Dom.Node []>?elementArray) ^-> TSelf
-            |> WithInline "jQuery($0)"
+            |> ImportDefault "jquery"
             |> WithComment "Accepts an array containing a set of DOM elements to wrap in a jQuery object."
 
             "of" => (T<obj>?``object``) ^-> TSelf
-            |> WithInline "jQuery($0)"
+            |> ImportDefault "jquery"
             |> WithComment "Accepts a plain object to wrap in a jQuery object."
 
             "of" => (TSelf?selection) ^-> TSelf
-            |> WithInline "jQuery($0)"
+            |> ImportDefault "jquery"
             |> WithComment "Accepts an existing jQuery object to clone."
 
             "of" => (T<unit>) ^-> TSelf
-            |> WithInline "jQuery()"
+            |> ImportDefault "jquery"
             |> WithComment "This signature does not accept any arguments."
 
             "of" => (T<string>?html * T<Dom.Document>?ownerDocument) ^-> TSelf
-            |> WithInline "jQuery($0, $1)"
+            |> ImportDefault "jquery"
             |> WithComment "Creates DOM elements on the fly from the provided string of raw HTML."
 
             "of" => (T<string>?html * T<obj>?attributes) ^-> TSelf
-            |> WithInline "jQuery($0, $1)"
+            |> ImportDefault "jquery"
             |> WithComment "Creates DOM elements on the fly from the provided string of raw HTML."
 
             "of" => ((T<unit> ^-> T<unit>)?callback) ^-> TSelf
-            |> WithInline "jQuery($0)"
+            |> ImportDefault "jquery"
             |> WithComment "Binds a function to be executed when the DOM has finished loading."
 
             "noConflict" => !?T<bool> ^-> T<obj>
             "readyException" => Error ^-> T<string>
             "when" => Deferred + Promise ^-> Promise
+
+            // Plugin surface
+            "fn" =? T<obj>
+            |> WithComment "The jQuery prototype, where plugins are registered"
 
             // Ajax related static methods
             "ajax" => T<string> * !? AjaxSettings ^-> JqXHR
@@ -783,28 +772,10 @@ module Definition =
             // Deprecated
             "holdReady" => T<bool> ^-> T<obj>
             |> ObsoleteWithMessage "Instead of relying on this global switch, it's better to put explicitly wait for required code"
-            "isArray" => T<obj> ^-> T<bool>
-            |> ObsoleteWithMessage "Use the native Array.isArray method instead"
-            "isFunction" => T<obj> ^-> T<bool>
-            |> ObsoleteWithMessage "In most cases, its use can be replaced by typeof x === \"function\""
-            "isNumeric" => T<obj> ^-> T<bool>
-            |> Obsolete
-            "isWindow" => T<obj> ^-> T<bool>
-            |> ObsoleteWithMessage "If you need this function, reimplement it by yourself"
-            "now" => T<unit> ^-> T<int>
-            |> ObsoleteWithMessage "Use the native Date.now() method instead"
-            "parseJSON" => T<string> ^-> T<obj>
-            |> ObsoleteWithMessage "Use the native JSON.parse instead"
             "proxy" => (T<unit> ^-> T<unit>) * T<obj> * !?(!| T<obj>) ^-> (Event ^-> T<unit>)
             |> ObsoleteWithMessage "Use the native Function.prototype.bind method instead"
             "proxy" => T<obj> * T<string> * !?(!| T<obj>) ^-> (Event ^-> T<unit>)
             |> ObsoleteWithMessage "Use the native Function.prototype.bind method instead"
-            "trim" => T<string> ^-> T<string>
-            |> ObsoleteWithMessage "Use the native String.prototype.trim method instead"
-            "type" => T<obj> ^-> T<string>
-            |> Obsolete
-            "unique" => !| T<Dom.Element> ^-> !| T<Dom.Element>
-            |> ObsoleteWithMessage "Use UniqueSort instead"
             
         ]
         
@@ -830,8 +801,11 @@ module Definition =
                 Position
                 NonceOptions
             ]
+            // Kept for source compatibility with bindings that still link a
+            // global jQuery (notably WebSharper.Highcharts). This binding does
+            // not use it: it imports jQuery from npm instead. Not AssemblyWide.
             Namespace "WebSharper.JQuery.Resources" [
-                Resource "JQuery" "https://code.jquery.com/jquery-3.6.0.min.js" |> AssemblyWide
+                Resource "JQuery" "https://code.jquery.com/jquery-4.0.0.min.js"
             ]
         ]
 
