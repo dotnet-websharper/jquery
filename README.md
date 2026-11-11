@@ -197,7 +197,7 @@ binding source and WebSharper metadata.
 
 ### Deployment
 
-Pushing to `master` triggers `.github/workflows/ghpages.yml`, which restores via
+Pushing to `main` triggers `.github/workflows/ghpages.yml`, which restores via
 Paket, builds the sample in Release and publishes `dist/` to the `gh-pages`
 branch via GitHub Pages.
 
