@@ -59,6 +59,7 @@ jobs:
         run: dotnet build WebSharper.JQuery.Sample/WebSharper.JQuery.Sample.fsproj --configuration Release
 
       - name: Deploy 🚀
+        if: github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
